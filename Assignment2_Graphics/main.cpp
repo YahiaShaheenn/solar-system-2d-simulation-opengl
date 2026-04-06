@@ -3,8 +3,7 @@
 #define _USE_MATH_DEFINES
 #include <cmath>
 #include "maya.h"
-
-
+#include "shaza.h"
 
 const int NUM_STARS = 400;
 float starX[NUM_STARS];
@@ -12,6 +11,7 @@ float starY[NUM_STARS];
 static bool isAnimate = 1;
 static int animationPeriod = 25;
 float earthAngle = 0.0;
+float VenusAngle = 0.0;
 
 void reshape(int w, int h)
 {
@@ -97,11 +97,25 @@ void increaseEarthAngle() {
 
 }
 
+void increaseVenusAngle()
+{
+    VenusAngle += 0.01 * (365.25 / 224.7);
+
+    if (VenusAngle > 360) {
+        VenusAngle -= 360;
+    }
+
+    glutPostRedisplay();
+
+}
+
 void animate(int value) {
 
     if (isAnimate) {
 
         increaseEarthAngle();
+
+        increaseVenusAngle();
 
         glutPostRedisplay();
 
@@ -109,6 +123,7 @@ void animate(int value) {
 
     }
 }
+
 
 void init()
 {
@@ -129,8 +144,15 @@ void display()
     drawSun();
 
     glTranslatef(175 * (cos(earthAngle)), 175 * (sin(earthAngle)), 0);
-
+   
     DrawEarth();
+
+    glLoadIdentity();
+
+    glTranslatef(113.5 * cos(VenusAngle), 113.5 * sin(VenusAngle), 0);
+
+    DrawVenus();
+
 
     glFlush();
 

@@ -131,6 +131,7 @@
     <ClCompile Include="yahia.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="shaza.h" />
     <ClInclude Include="maya.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
