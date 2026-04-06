@@ -130,6 +130,9 @@
     <ClCompile Include="shaza.cpp" />
     <ClCompile Include="yahia.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="maya.h" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

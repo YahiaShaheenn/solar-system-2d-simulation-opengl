@@ -2,6 +2,7 @@
 #include <GL/freeglut.h> 
 #define _USE_MATH_DEFINES
 #include <cmath>
+#include "maya.h"
 
 
 
@@ -95,6 +96,8 @@ void display()
     drawStars();
 
     drawSun();
+
+    DrawEarth();
 
     glFlush();
 }
