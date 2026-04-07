@@ -4,6 +4,7 @@
 #include <cmath>
 #include "maya.h"
 #include "shaza.h"
+#include "Merna.h"
 
 const int NUM_STARS = 400;
 float starX[NUM_STARS];
@@ -12,6 +13,7 @@ static bool isAnimate = 1;
 static int animationPeriod = 25;
 float earthAngle = 0.0;
 float VenusAngle = 0.0;
+float MarsAngle = 0.0;
 
 void reshape(int w, int h)
 {
@@ -108,6 +110,13 @@ void increaseVenusAngle()
     glutPostRedisplay();
 
 }
+void increaseMarsAngle() {
+    MarsAngle += 0.01 * (365.25 / 686.97);  
+    if (MarsAngle > 360) {
+        MarsAngle -= 360;
+    }
+    glutPostRedisplay();
+}
 
 void animate(int value) {
 
@@ -116,6 +125,8 @@ void animate(int value) {
         increaseEarthAngle();
 
         increaseVenusAngle();
+
+		increaseMarsAngle(); 
 
         glutPostRedisplay();
 
@@ -153,6 +164,11 @@ void display()
 
     DrawVenus();
 
+    glLoadIdentity();
+
+    glTranslatef(240 * cos(MarsAngle), 240 * sin(MarsAngle), 0);  
+
+    DrawMars();
 
     glFlush();
 

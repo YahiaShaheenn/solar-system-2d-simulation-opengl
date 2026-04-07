@@ -41,5 +41,8 @@
     <ClInclude Include="shaza.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Merna.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
