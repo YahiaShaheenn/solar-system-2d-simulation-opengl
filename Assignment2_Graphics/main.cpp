@@ -9,11 +9,13 @@
 const int NUM_STARS = 400;
 float starX[NUM_STARS];
 float starY[NUM_STARS];
-static bool isAnimate = 1;
+static bool isAnimate = 0;
 static int animationPeriod = 25;
 float earthAngle = 0.0;
 float VenusAngle = 0.0;
 float MarsAngle = 0.0;
+
+
 
 void reshape(int w, int h)
 {
@@ -25,12 +27,12 @@ void reshape(int w, int h)
     float aspect = (float)w / (float)h;
 
     if (aspect >= 2.5f) {
-        float orthoHeight = 160.0f;
+        float orthoHeight = 270.0f;
         float orthoWidth = orthoHeight * aspect;
         glOrtho(-orthoWidth, orthoWidth, -orthoHeight, orthoHeight, -1, 1);
     }
     else {
-        float orthoWidth = 400.0f;
+        float orthoWidth = 675.0f;
         float orthoHeight = orthoWidth / aspect;
         glOrtho(-orthoWidth, orthoWidth, -orthoHeight, orthoHeight, -1, 1);
     }
@@ -42,8 +44,8 @@ void initStars()
 {
     for (int i = 0; i < NUM_STARS; i++)
     {
-        starX[i] = rand() % 800;
-        starY[i] = rand() % 320;
+        starX[i] = rand() % 1350;
+        starY[i] = rand() % 540;
     }
 }
 
@@ -55,7 +57,7 @@ void drawStars()
 
     for (int i = 0; i < NUM_STARS; i++)
     {
-        glVertex2f(starX[i] - 400, starY[i] - 160);
+        glVertex2f(starX[i] - 675, starY[i] - 270);
     }
     glEnd();
 }
@@ -175,6 +177,44 @@ void display()
 
 }
 
+
+void keyInput(unsigned char key, int x, int y)
+{
+    switch (key)
+    {
+    case 27:
+        exit(0);
+        break;
+    case ' ':
+        if (isAnimate) {
+            isAnimate = false;
+            glutIdleFunc(NULL);
+        }
+        else
+        {
+            isAnimate = true;
+            animate(1);
+        }
+        break;
+    }
+}
+
+void specialKeyInput(int key, int x, int y)
+{
+    if (key == GLUT_KEY_DOWN)
+    {
+        animationPeriod += 1;
+    }
+    if (key == GLUT_KEY_UP)
+    {
+        if (animationPeriod > 1) {
+            animationPeriod -= 1;
+        }
+    }
+    glutPostRedisplay();
+}
+
+
 int main(int argc, char** argv)
 {
     glutInit(&argc, argv);
@@ -186,6 +226,8 @@ int main(int argc, char** argv)
     init();
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
+    glutKeyboardFunc(keyInput);
+	glutSpecialFunc(specialKeyInput);
     animate(1);
 
 
