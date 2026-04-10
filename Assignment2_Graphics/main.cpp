@@ -151,7 +151,7 @@ void display()
 
   
     glLoadIdentity();
-    glTranslatef(65 * cos(MercuryAngle), 65 * sin(MercuryAngle), 0);
+    glTranslatef(70 * cos(MercuryAngle), 70 * sin(MercuryAngle), 0);
     DrawMercury();
 
     
