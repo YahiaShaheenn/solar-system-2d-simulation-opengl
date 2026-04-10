@@ -44,5 +44,8 @@
     <ClInclude Include="Merna.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Reem.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

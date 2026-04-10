@@ -131,6 +131,7 @@
     <ClCompile Include="yahia.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Reem.h" />
     <ClInclude Include="Merna.h" />
     <ClInclude Include="shaza.h" />
     <ClInclude Include="maya.h" />

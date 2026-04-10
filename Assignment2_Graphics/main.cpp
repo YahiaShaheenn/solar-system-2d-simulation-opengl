@@ -5,16 +5,20 @@
 #include "maya.h"
 #include "shaza.h"
 #include "Merna.h"
+#include "Reem.h"   
 
 const int NUM_STARS = 400;
 float starX[NUM_STARS];
 float starY[NUM_STARS];
 static bool isAnimate = 0;
 static int animationPeriod = 25;
+
 float earthAngle = 0.0;
 float VenusAngle = 0.0;
 float MarsAngle = 0.0;
 
+
+float MercuryAngle = 0.0;
 
 
 void reshape(int w, int h)
@@ -37,6 +41,10 @@ void reshape(int w, int h)
         glOrtho(-orthoWidth, orthoWidth, -orthoHeight, orthoHeight, -1, 1);
     }
 
+   
+    glMatrixMode(GL_MODELVIEW);
+    glLoadIdentity();
+
     glutPostRedisplay();
 }
 
@@ -48,7 +56,6 @@ void initStars()
         starY[i] = rand() % 540;
     }
 }
-
 
 void drawStars()
 {
@@ -62,10 +69,8 @@ void drawStars()
     glEnd();
 }
 
-
 void drawSun()
 {
-
     glBegin(GL_TRIANGLE_FAN);
 
     int numVert = 500;
@@ -77,8 +82,8 @@ void drawSun()
 
     for (int i = 0; i <= numVert; ++i) {
         glColor3f(227.0 / 255, 120.0 / 255, 14.0 / 255);
-        float x = 0 + R * cos(t);
-        float y = 0 + R * sin(t);
+        float x = R * cos(t);
+        float y = R * sin(t);
         glVertex2f(x, y);
         t += 2.0 * M_PI / numVert;
     }
@@ -87,36 +92,29 @@ void drawSun()
 }
 
 
-
 void increaseEarthAngle() {
-
     earthAngle += 0.01;
-
-    if (earthAngle > 360) {
-        earthAngle -= 360;
-    }
-
+    if (earthAngle > 360) earthAngle -= 360;
     glutPostRedisplay();
-
-
 }
 
 void increaseVenusAngle()
 {
     VenusAngle += 0.01 * (365.25 / 224.7);
-
-    if (VenusAngle > 360) {
-        VenusAngle -= 360;
-    }
-
+    if (VenusAngle > 360) VenusAngle -= 360;
     glutPostRedisplay();
-
 }
+
 void increaseMarsAngle() {
-    MarsAngle += 0.01 * (365.25 / 686.97);  
-    if (MarsAngle > 360) {
-        MarsAngle -= 360;
-    }
+    MarsAngle += 0.01 * (365.25 / 686.97);
+    if (MarsAngle > 360) MarsAngle -= 360;
+    glutPostRedisplay();
+}
+
+void increaseMercuryAngle()
+{
+    MercuryAngle += 0.01 * (365.25 / 88.0);
+    if (MercuryAngle > 360) MercuryAngle -= 360;
     glutPostRedisplay();
 }
 
@@ -124,16 +122,13 @@ void animate(int value) {
 
     if (isAnimate) {
 
+        increaseMercuryAngle();  
         increaseEarthAngle();
-
         increaseVenusAngle();
-
-		increaseMarsAngle(); 
+        increaseMarsAngle();
 
         glutPostRedisplay();
-
         glutTimerFunc(animationPeriod, animate, 1);
-
     }
 }
 
@@ -151,30 +146,29 @@ void display()
     glMatrixMode(GL_MODELVIEW);
     glLoadIdentity();
 
-
     drawStars();
-
     drawSun();
 
-    glTranslatef(175 * (cos(earthAngle)), 175 * (sin(earthAngle)), 0);
-   
+  
+    glLoadIdentity();
+    glTranslatef(65 * cos(MercuryAngle), 65 * sin(MercuryAngle), 0);
+    DrawMercury();
+
+    
+
+    glLoadIdentity();
+    glTranslatef(175 * cos(earthAngle), 175 * sin(earthAngle), 0);
     DrawEarth();
 
     glLoadIdentity();
-
     glTranslatef(113.5 * cos(VenusAngle), 113.5 * sin(VenusAngle), 0);
-
     DrawVenus();
 
     glLoadIdentity();
-
-    glTranslatef(240 * cos(MarsAngle), 240 * sin(MarsAngle), 0);  
-
+    glTranslatef(240 * cos(MarsAngle), 240 * sin(MarsAngle), 0);
     DrawMars();
 
     glFlush();
-
-
 }
 
 
@@ -202,15 +196,11 @@ void keyInput(unsigned char key, int x, int y)
 void specialKeyInput(int key, int x, int y)
 {
     if (key == GLUT_KEY_DOWN)
-    {
         animationPeriod += 1;
-    }
-    if (key == GLUT_KEY_UP)
-    {
-        if (animationPeriod > 1) {
-            animationPeriod -= 1;
-        }
-    }
+
+    if (key == GLUT_KEY_UP && animationPeriod > 1)
+        animationPeriod -= 1;
+
     glutPostRedisplay();
 }
 
@@ -227,9 +217,9 @@ int main(int argc, char** argv)
     glutDisplayFunc(display);
     glutReshapeFunc(reshape);
     glutKeyboardFunc(keyInput);
-	glutSpecialFunc(specialKeyInput);
-    animate(1);
+    glutSpecialFunc(specialKeyInput);
 
+    animate(1);
 
     glutMainLoop();
 }
