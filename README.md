@@ -80,7 +80,7 @@ This ensures smooth, time-based updates independent of frame rate.
 
 ---
 
-## 📷 Preview
+# Preview
 
 <img width="1918" height="828" alt="Screenshot 2026-04-25 121323" src="https://github.com/user-attachments/assets/ce3d9bab-b0ee-4e82-990e-5da58cd06c7c" />
 
